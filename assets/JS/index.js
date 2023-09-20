@@ -2,7 +2,7 @@
 const worksContainer = document.querySelector(".gallery");
 const works = worksContainer.children;
 const filtersSection = document.querySelector(".filters");
-const liveServerLink = "127.0.0.1:5500/BackEnd/";
+const backLink = 'http://51.77.244.64:5678'
 const origin =
   window.location.href.split(".html")[0].split("/").slice(0, -1).join("/") +
   "/";
@@ -19,13 +19,13 @@ const editBtnParents = [
 
 // fetch functions
 async function fetchWork() {
-  const res = await fetch("http://51.77.244.64:5678/api/works");
+  const res = await fetch(backLink + "/api/works");
   const data = await res.json();
   return data;
 }
 
 async function fetchCategories() {
-  const res = await fetch("http://51.77.244.64:5678/api/categories");
+  const res = await fetch(backLink + "/api/categories");
   const data = await res.json();
   return data;
 }
@@ -77,7 +77,9 @@ async function listWorkAction() {
   filtersSection.innerText = "";
   const data = await fetchWork();
   data.forEach((e) => {
-    listWorkTemplate(e.imageUrl, e.title, e.id, e.category.id, e.category.name);
+    const imgLink = (e.imageUrl.replace('http://localhost:5678', backLink));
+    
+    listWorkTemplate(imgLink, e.title, e.id, e.category.id, e.category.name);
   });
   addFilterButtons();
   const filtersButtons = document.querySelectorAll(".filter");
@@ -401,7 +403,7 @@ async function postWork(event) {
   const form = document.querySelector("form");
   const bearerToken = localStorage.token;
   let formData = new FormData(form);
-  let res = await fetch("http://51.77.244.64:5678/api/works", {
+  let res = await fetch(backLink + "/api/works", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${bearerToken}`,
@@ -425,7 +427,7 @@ async function deleteWork(event, workIds) {
   const bearerToken = localStorage.token;
   if (workIds) {
     for (let i = 0; i < workIds.length; i++) {
-      res = await fetch(`http://51.77.244.64:5678/api/works/${workIds[i]}`, {
+      res = await fetch(`${backLink}/api/works/${workIds[i]}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${bearerToken}`,
@@ -447,7 +449,7 @@ async function deleteWork(event, workIds) {
     const targetId = "#" + event.target.classList[0].toString();
     const target = document.querySelector(targetId).parentElement.parentElement;
     const workId = event.target.classList[0].split("-")[1];
-    res = await fetch(`http://51.77.244.64:5678/api/works/${workId}`, {
+    res = await fetch(`${backLink}/api/works/${workId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${bearerToken}`,
