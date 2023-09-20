@@ -19,13 +19,13 @@ const editBtnParents = [
 
 // fetch functions
 async function fetchWork() {
-  const res = await fetch("http://localhost:5678/api/works");
+  const res = await fetch("http://51.77.244.64:5678/api/works");
   const data = await res.json();
   return data;
 }
 
 async function fetchCategories() {
-  const res = await fetch("http://localhost:5678/api/categories");
+  const res = await fetch("http://51.77.244.64:5678/api/categories");
   const data = await res.json();
   return data;
 }
@@ -401,7 +401,7 @@ async function postWork(event) {
   const form = document.querySelector("form");
   const bearerToken = localStorage.token;
   let formData = new FormData(form);
-  let res = await fetch("http://localhost:5678/api/works", {
+  let res = await fetch("http://51.77.244.64:5678/api/works", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${bearerToken}`,
@@ -425,7 +425,7 @@ async function deleteWork(event, workIds) {
   const bearerToken = localStorage.token;
   if (workIds) {
     for (let i = 0; i < workIds.length; i++) {
-      res = await fetch(`http://localhost:5678/api/works/${workIds[i]}`, {
+      res = await fetch(`http://51.77.244.64:5678/api/works/${workIds[i]}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${bearerToken}`,
@@ -447,7 +447,7 @@ async function deleteWork(event, workIds) {
     const targetId = "#" + event.target.classList[0].toString();
     const target = document.querySelector(targetId).parentElement.parentElement;
     const workId = event.target.classList[0].split("-")[1];
-    res = await fetch(`http://localhost:5678/api/works/${workId}`, {
+    res = await fetch(`http://51.77.244.64:5678/api/works/${workId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${bearerToken}`,
