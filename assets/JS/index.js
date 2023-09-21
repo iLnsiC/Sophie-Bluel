@@ -2,7 +2,7 @@
 const worksContainer = document.querySelector(".gallery");
 const works = worksContainer.children;
 const filtersSection = document.querySelector(".filters");
-const backLink = 'http://51.77.244.64:5678'
+const backLink = 'https://api.zeghoudi-mohammed-walid.fr/sophie_bluel'
 const origin =
   window.location.href.split(".html")[0].split("/").slice(0, -1).join("/") +
   "/";
@@ -21,6 +21,7 @@ const editBtnParents = [
 async function fetchWork() {
   const res = await fetch(backLink + "/api/works");
   const data = await res.json();
+  console.log(data);
   return data;
 }
 
@@ -77,8 +78,8 @@ async function listWorkAction() {
   filtersSection.innerText = "";
   const data = await fetchWork();
   data.forEach((e) => {
-    const imgLink = (e.imageUrl.replace('http://localhost:5678', backLink));
-    
+    let imgLink = (e.imageUrl.replace('https://api.zeghoudi-mohammed-walid.fr', backLink));
+    imgLink = (e.imageUrl.replace('http://localhost:5678', backLink));
     listWorkTemplate(imgLink, e.title, e.id, e.category.id, e.category.name);
   });
   addFilterButtons();
@@ -214,6 +215,8 @@ function setUpModal(data, element) {
   switch (editTarget) {
     case "edit_portfolio_title":
       data.forEach((e) => {
+        let imgLink = (e.imageUrl.replace('https://api.zeghoudi-mohammed-walid.fr', backLink));
+        imgLink = (e.imageUrl.replace('http://localhost:5678', backLink));
         let workTitle = e.title.replaceAll('"', "");
         figureTemplate =
           figureTemplate +
@@ -227,7 +230,7 @@ function setUpModal(data, element) {
                 <i class="modal_icon_delete_btn-${e.id} fas fa-solid fa-trash-can"></i>
               </button>
             </div>
-            <img src="${e.imageUrl}" alt="${workTitle}" />
+            <img src="${imgLink}" alt="${workTitle}" />
             <button class="single_edit_btn">éditer</button>
           </div>
         `;

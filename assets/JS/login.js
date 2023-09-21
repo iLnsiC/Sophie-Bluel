@@ -1,12 +1,14 @@
 const form = document.querySelector("form");
 const errorDom = document.querySelector("#error");
+const backLink = 'https://api.zeghoudi-mohammed-walid.fr/sophie_bluel'
+
 async function onSubmit(event) {
   event.preventDefault();
   let user = {
     email: form.email.value,
     password: form.password.value,
   };
-  let response = await fetch("http://localhost:5678/api/users/login", {
+  let response = await fetch(backLink + "/api/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
