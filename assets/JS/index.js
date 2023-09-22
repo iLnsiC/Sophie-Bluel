@@ -21,7 +21,9 @@ const editBtnParents = [
 async function fetchWork() {
   const res = await fetch(backLink + "/api/works");
   const data = await res.json();
-  console.log(data);
+  data.map(e => {
+    e.imageUrl = e.imageUrl.split('images')[1]
+  })
   return data;
 }
 
@@ -78,8 +80,7 @@ async function listWorkAction() {
   filtersSection.innerText = "";
   const data = await fetchWork();
   data.forEach((e) => {
-    let imgLink = (e.imageUrl.replace('https://api.zeghoudi-mohammed-walid.fr', backLink));
-    imgLink = (e.imageUrl.replace('http://localhost:5678', backLink));
+    const imgLink = backLink + '/images' + e.imageUrl;
     listWorkTemplate(imgLink, e.title, e.id, e.category.id, e.category.name);
   });
   addFilterButtons();
@@ -215,8 +216,7 @@ function setUpModal(data, element) {
   switch (editTarget) {
     case "edit_portfolio_title":
       data.forEach((e) => {
-        let imgLink = (e.imageUrl.replace('https://api.zeghoudi-mohammed-walid.fr', backLink));
-        imgLink = (e.imageUrl.replace('http://localhost:5678', backLink));
+        const imgLink = backLink + '/images' + e.imageUrl;
         let workTitle = e.title.replaceAll('"', "");
         figureTemplate =
           figureTemplate +
